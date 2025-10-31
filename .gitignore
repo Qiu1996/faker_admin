@@ -1,0 +1,16 @@
+# Python-generated files
+__pycache__/
+
+# Virtual environments
+backend/.venv
+
+.claude
+
+
+# frontend
+node_modules
+
+
+# systen file
+.vscode/
+.DS_Store

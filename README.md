@@ -3,7 +3,7 @@
 前後端分離的假資料 API 服務，供前端開發測試使用。
 
 ## 專案簡介
-提供假資料 API 端點，使用 Faker 生成隨機資料，用於前端效能測試和開發。
+提供假資料 API 端點，使用 Faker 生成隨機資料，用於前端測試和開發使用。
 
 ## 技術棧
 
@@ -65,6 +65,7 @@ npm run dev          # 啟動開發伺服器
 
 - **前端**：GitHub Pages
   - 透過 GitHub Actions 自動部署
+  - 生產網址：https://qiu1996.github.io/faker_admin/
 
 ## API 端點
 

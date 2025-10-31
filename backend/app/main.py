@@ -1,8 +1,23 @@
+# import
 from fastapi import FastAPI
 from app.schemas import User
 from app.data_generator import generate_users
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# CORS
+origins = [
+  "http://localhost:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_methods = ["GET"],
+)
+
+
 
 users = []
 

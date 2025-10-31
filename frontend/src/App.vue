@@ -5,7 +5,7 @@ fetch("https://fakeradmin.zeabur.app/")
 </script>
 
 <template>
-<h1>Hello</h1>
+<h1>Faker Admin</h1>
 </template>
 
 <style scoped>

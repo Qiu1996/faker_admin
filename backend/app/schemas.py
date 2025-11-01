@@ -1,6 +1,11 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
-class User(BaseModel):
-    id: int
-    name: str = "Jane Doe"
+class Order(BaseModel):
+  id: int
+  order_number: str
+  customer_name: str
+  amount: int
+  status: str
+  created_at: datetime

@@ -1,17 +1,23 @@
 <script setup>
 import { ref } from "vue";
 
-const data = ref([]);
+const orders = ref([]);
 
-const fetchData = async () => {
+const fetchOrdersData = async () => {
   const res = await fetch("https://fakeradmin.zeabur.app/");
-  data.value = await res.json();
+  orders.value = await res.json();
 };
 
-fetchData();
+fetchOrdersData();
 </script>
 
 <template>
-  <div v-for="i in data">{{ i }}</div>
-  <el-button type="primary">I am ElButton</el-button>
+<h1>Order List</h1>
+<el-table :data="orders" style="width: 100%">
+  <el-table-column prop="order_number" label="訂單編號" />
+   <el-table-column prop="customer_name" label="客戶姓名" />
+   <el-table-column prop="amount" label="訂單金額" />
+   <el-table-column prop="status" label="付款狀態" />
+   <el-table-column prop="created_at" label="訂單建立時間" />
+</el-table>
 </template>

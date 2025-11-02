@@ -62,23 +62,11 @@ npm run dev          # 啟動開發伺服器
 
 - **後端**：[Zeabur](https://zeabur.com)
   - 生產網址：https://fakeradmin.zeabur.app/
+  - API 文檔：https://fakeradmin.zeabur.app/docs
 
 - **前端**：GitHub Pages
   - 透過 GitHub Actions 自動部署
   - 生產網址：https://qiu1996.github.io/faker_admin/
 
 ## API 端點
-
-### GET /
-
-回傳假使用者資料列表。
-
-**回應範例：**
-```json
-[
-  {
-    "id": 1,
-    "name": "John Doe"
-  }
-]
-```
+API 端點請參考: [API 文檔](https://fakeradmin.zeabur.app/docs)

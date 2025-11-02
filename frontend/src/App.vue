@@ -1,13 +1,17 @@
 <script setup>
-fetch("https://fakeradmin.zeabur.app/")
-  .then(res => res.json())
-  .then(data => console.log(data))
+import { ref } from "vue";
+
+const data = ref([]);
+
+const fetchData = async () => {
+  const res = await fetch("https://fakeradmin.zeabur.app/");
+  data.value = await res.json();
+};
+
+fetchData();
 </script>
 
 <template>
-<h1>Faker Admin</h1>
+  <div v-for="i in data">{{ i }}</div>
+  <el-button type="primary">I am ElButton</el-button>
 </template>
-
-<style scoped>
-
-</style>

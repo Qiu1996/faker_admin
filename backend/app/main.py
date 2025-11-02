@@ -20,11 +20,11 @@ orders = []
 
 
 @app.on_event("startup")
-def startup():
+def init_data():
     global orders
-    orders = generate_orders(10)
+    orders = generate_orders()
 
 
-@app.get("/")
-def read_root():
+@app.get("/", response_model=list[Order])
+def get_orders():
     return orders

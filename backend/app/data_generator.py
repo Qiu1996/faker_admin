@@ -13,7 +13,7 @@ def generate_orders(count: int = 100):
         "customer_name": fake.name(),
         "amount": fake.random_int(min=1000, max=10000),
         "status": fake.random_element(elements=('pending', 'completed', 'cancelled')),
-        "created_at": create_time.strftime('%Y-%m-%dT%H:%M:%S'),
+        "created_at": create_time.strftime('%Y-%m-%d %H:%M:%S'),
       }
       orders.append(Order(**data))
 

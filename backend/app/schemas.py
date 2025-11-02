@@ -8,4 +8,4 @@ class Order(BaseModel):
   customer_name: str
   amount: int
   status: str
-  created_at: datetime
+  created_at: str

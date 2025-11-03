@@ -1,16 +1,12 @@
 <script setup>
 const props = defineProps(["currentPage", "total", "pageSize"]);
-const emit = defineEmits(["update:currentPage"]);
-
-const handlePageChange = (page) => {
-  emit('update:currentPage', page)
-}
+const currentPage = defineModel('currentPage')
 </script>
 
 <template>
   <el-row justify="center">
     <el-pagination
-      @current-change="handlePageChange"
+      v-model:current-page="currentPage"
       :current-page="currentPage"
       :total="total"
       :page-size="pageSize"

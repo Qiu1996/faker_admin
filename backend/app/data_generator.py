@@ -15,6 +15,7 @@ def generate_orders(count: int = 100):
         "status": fake.random_element(elements=('pending', 'completed', 'cancelled')),
         "created_at": create_time.strftime('%Y-%m-%d %H:%M:%S'),
       }
-      orders.append(Order(**data))
 
+      orders.append(Order(**data))
+    orders.sort(key=lambda order: order.created_at, reverse=True)
     return orders

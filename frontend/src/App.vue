@@ -9,8 +9,12 @@ const currentPage = ref(1);
 const pageSize = ref(10);
 const statusFilter = ref([]);
 
+const API_URL = import.meta.env.DEV
+  ? 'http://localhost:8000'
+  : 'https://fakeradmin.zeabur.app'
+
 const fetchOrdersData = async () => {
-  const res = await fetch("http://localhost:8000/");
+  const res = await fetch(`${API_URL}/`);
   orderList.value = await res.json();
 };
 fetchOrdersData();

@@ -9,7 +9,7 @@ def generate_orders(count: int = 100):
       create_time = fake.date_time_between()
       data = {
         "id":i,
-        "order_number": f"ORD{create_time.strftime('%Y%m%d')}8821{i}",
+        "order_number": f"ORD{create_time.strftime('%Y%m%d%H%M%S')}",
         "customer_name": fake.name(),
         "amount": fake.random_int(min=1000, max=10000),
         "status": fake.random_element(elements=('pending', 'completed', 'cancelled')),

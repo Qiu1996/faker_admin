@@ -19,7 +19,7 @@ const fetchOrdersData = async () => {
 };
 fetchOrdersData();
 
-const filteredOrders = computed(() => {
+const filterOrders = computed(() => {
   let result = orderList.value
 
   if (statusFilter.value.length > 0) {
@@ -32,10 +32,10 @@ const filteredOrders = computed(() => {
 })
 
 
-const displayedOrders = computed(() => {
+const displayOrders = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value
   const end = start + pageSize.value
-  return filteredOrders.value.slice(start, end)
+  return filterOrders.value.slice(start, end)
 })
 
 const handleSort = ({ prop, order }) => {
@@ -68,9 +68,9 @@ const handleSort = ({ prop, order }) => {
 <Pagination
   v-model:current-page="currentPage"
   :page-size=pageSize
-  :total=filteredOrders.length />
+  :total=filterOrders.length />
 <OrderTable
-  :orders=displayedOrders
+  :orders=displayOrders
   @sort-change="handleSort"
   />
 </template>

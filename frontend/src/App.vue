@@ -2,10 +2,12 @@
 import { ref, computed } from "vue"
 import OrderTable from "./components/OrderTable.vue";
 import Pagination from "./components/Pagination.vue"
+import FilterBar from "./components/FilterBar.vue";
 
 const orderList = ref([]);
 const currentPage = ref(1);
 const pageSize = ref(10);
+const statusFilter = ref([]);
 
 const fetchOrdersData = async () => {
   const res = await fetch("http://localhost:8000/");
@@ -13,10 +15,23 @@ const fetchOrdersData = async () => {
 };
 fetchOrdersData();
 
+const filteredOrders = computed(() => {
+  let result = orderList.value
+
+  if (statusFilter.value.length > 0) {
+    result = result.filter(order =>
+      statusFilter.value.includes(order.status)
+    )
+  }
+
+  return result
+})
+
+
 const displayedOrders = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value
   const end = start + pageSize.value
-  return orderList.value.slice(start, end)
+  return filteredOrders.value.slice(start, end)
 })
 
 const handleSort = ({ prop, order }) => {
@@ -44,10 +59,12 @@ const handleSort = ({ prop, order }) => {
 
 <template>
 <h1>Order List</h1>
+<FilterBar
+  v-model:statusFilter="statusFilter" />
 <Pagination
   v-model:current-page="currentPage"
   :page-size=pageSize
-  :total=orderList.length />
+  :total=filteredOrders.length />
 <OrderTable
   :orders=displayedOrders
   @sort-change="handleSort"

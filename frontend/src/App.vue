@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from "vue"
+import { AMOUNT_RANGES } from "./constants.js"
 import OrderTable from "./components/OrderTable.vue";
 import Pagination from "./components/Pagination.vue"
 import FilterBar from "./components/FilterBar.vue";
@@ -8,6 +9,9 @@ const orderList = ref([]);
 const currentPage = ref(1);
 const pageSize = ref(10);
 const statusFilter = ref([]);
+const inputFilter = ref();
+const dateFilter = ref();
+const amountFilter = ref();
 
 const API_URL = import.meta.env.DEV
   ? 'http://localhost:8000'
@@ -22,11 +26,39 @@ fetchOrdersData();
 const filterOrders = computed(() => {
   let result = orderList.value
 
+  // 狀態篩選
   if (statusFilter.value.length > 0) {
     result = result.filter(order =>
       statusFilter.value.includes(order.status)
     )
   }
+
+  // 搜尋篩選
+  if (inputFilter.value){
+    result = result.filter(order =>
+      order.order_number.includes(inputFilter.value) ||
+      order.customer_name.includes(inputFilter.value)
+    )
+  }
+
+  // 日期篩選
+  if (dateFilter.value){
+    result = result.filter(order => {
+      const orderDate = new Date(order.created_at)
+      const [startDate, endDate] = dateFilter.value
+      return orderDate >= startDate && orderDate <=endDate
+    }
+    )
+  }
+
+  // 金額篩選
+  if (amountFilter.value){
+    result = result.filter(order => {
+      const [minAmount, maxAmount] = AMOUNT_RANGES[amountFilter.value];
+      return order.amount >= minAmount && order.amount <= maxAmount;
+    })
+  }
+
 
   return result
 })
@@ -64,7 +96,10 @@ const handleSort = ({ prop, order }) => {
 <template>
 <h1>Order List</h1>
 <FilterBar
-  v-model:statusFilter="statusFilter" />
+  v-model:status-filter="statusFilter"
+  v-model:input-filter="inputFilter"
+  v-model:date-filter="dateFilter"
+  v-model:amount-filter="amountFilter" />
 <Pagination
   v-model:current-page="currentPage"
   :page-size=pageSize

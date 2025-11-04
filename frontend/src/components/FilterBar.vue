@@ -1,15 +1,19 @@
 <script setup>
-import { ORDER_STATUS } from "../constants.js"
-const statusFilter = defineModel('statusFilter');
+import { ORDER_STATUS, AMOUNT_RANGES } from "../constants.js"
+const statusFilter = defineModel("statusFilter");
+const inputFilter = defineModel("inputFilter");
+const dateFilter = defineModel("dateFilter");
+const amountFilter = defineModel("amountFilter");
 </script>
 
 <template>
 <el-row :gutter="14">
     <el-col :span="6">
       <el-date-picker
+        v-model="dateFilter"
         type="daterange"
         unlink-panels
-        range-separator="至"
+        range-separator="|"
         start-placeholder="起始日期"
         end-placeholder="結束日期"
       />
@@ -22,18 +26,22 @@ const statusFilter = defineModel('statusFilter');
         collapse-tags-tooltip
         placeholder="選取付款狀態">
         <el-option
-          v-for="(label, value) in ORDER_STATUS"
-          :label="label" :value="value"/>
+          v-for="(value, key) in ORDER_STATUS"
+          :label="key" :value="value"/>
       </el-select>
     </el-col>
     <el-col :span="6">
-      <el-input placeholder="輸入訂單編號或客戶姓名" />
+      <el-input
+        v-model="inputFilter"
+        placeholder="輸入訂單編號或客戶姓名" />
     </el-col>
     <el-col :span="6">
-      <el-select placeholder="選取金額範圍">
-        <el-option value="A" />
-        <el-option value="A" />
-        <el-option value="A" />
+      <el-select
+        v-model="amountFilter"
+        placeholder="選取金額範圍">
+        <el-option
+          v-for="(_, key) in AMOUNT_RANGES"
+          :label="key" :value="key" />
       </el-select>
     </el-col>
 </el-row>

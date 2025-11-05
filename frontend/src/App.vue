@@ -1,11 +1,12 @@
 <script setup>
-import { ref, computed } from "vue"
+import { ref, computed, watch } from "vue"
 import { AMOUNT_RANGES } from "./constants.js"
 import OrderTable from "./components/OrderTable.vue";
 import Pagination from "./components/Pagination.vue"
 import FilterBar from "./components/FilterBar.vue";
 
 const orderList = ref([]);
+const orderTotal = ref();
 const currentPage = ref(1);
 const pageSize = ref(10);
 const statusFilter = ref([]);
@@ -18,9 +19,18 @@ const API_URL = import.meta.env.DEV
   : 'https://fakeradmin.zeabur.app'
 
 const fetchOrdersData = async () => {
-  const res = await fetch(`${API_URL}/`);
-  orderList.value = await res.json();
+  const res = await fetch(
+    `${API_URL}/order?page=${currentPage.value}&page_size=${pageSize.value}`
+  );
+  const data = await res.json();
+  orderList.value = data.data;
+  orderTotal.value = data.total;
 };
+
+watch(currentPage, () => {
+  fetchOrdersData();
+});
+
 fetchOrdersData();
 
 const filterOrders = computed(() => {
@@ -65,9 +75,7 @@ const filterOrders = computed(() => {
 
 
 const displayOrders = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value
-  const end = start + pageSize.value
-  return filterOrders.value.slice(start, end)
+  return filterOrders.value
 })
 
 const handleSort = ({ prop, order }) => {
@@ -103,7 +111,7 @@ const handleSort = ({ prop, order }) => {
 <Pagination
   v-model:current-page="currentPage"
   :page-size=pageSize
-  :total=filterOrders.length />
+  :total=orderTotal />
 <OrderTable
   :orders=displayOrders
   @sort-change="handleSort"

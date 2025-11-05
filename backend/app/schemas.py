@@ -9,3 +9,7 @@ class Order(BaseModel):
   amount: int
   status: str
   created_at: str
+
+class OrderList(BaseModel):
+  data: list[Order]
+  total: int

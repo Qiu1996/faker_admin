@@ -1,6 +1,6 @@
 # import
 from fastapi import FastAPI
-from app.schemas import Order
+from app.schemas import OrderList
 from app.data_generator import generate_orders
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -25,6 +25,11 @@ def init_data():
     orders = generate_orders()
 
 
-@app.get("/", response_model=list[Order])
-def get_orders():
-    return orders
+@app.get("/order", response_model=OrderList)
+def get_orders(page: int = 1, page_size: int = 10):
+  start = (page - 1) * page_size
+  end = start + page_size
+  return {
+    "data": orders[start:end],
+    "total": len(orders),
+  }

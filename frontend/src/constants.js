@@ -1,7 +1,7 @@
 export const ORDER_STATUS = {
-  "待付款": "pending",
-  "已完成": "completed",
-  "已取消": "cancelled"
+  "pending": "待付款",
+  "completed": "已完成",
+  "cancelled": "已取消"
 }
 
 export const AMOUNT_RANGES = {

@@ -27,7 +27,7 @@ const amountFilter = defineModel("amountFilter");
         placeholder="選取付款狀態">
         <el-option
           v-for="(value, key) in ORDER_STATUS"
-          :label="key" :value="value"/>
+          :label="value" :value="key"/>
       </el-select>
     </el-col>
     <el-col :span="6">
@@ -38,6 +38,7 @@ const amountFilter = defineModel("amountFilter");
     <el-col :span="6">
       <el-select
         v-model="amountFilter"
+        clearable
         placeholder="選取金額範圍">
         <el-option
           v-for="(_, key) in AMOUNT_RANGES"

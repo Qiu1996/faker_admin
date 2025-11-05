@@ -3,7 +3,7 @@ from app.schemas import Order
 
 fake = Faker('zh_TW')
 
-def generate_orders(count: int = 100):
+def generate_orders(count: int = 10000):
     orders = []
     for i in range(1, count + 1):
       create_time = fake.date_time_between()

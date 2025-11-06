@@ -26,10 +26,19 @@ def init_data():
 
 
 @app.get("/order", response_model=OrderList)
-def get_orders(page: int = 1, page_size: int = 10):
+def get_orders(
+  page: int = 1,
+  page_size: int = 10,
+  sortBy: str = "created_at",
+  sort: str = "descending"
+):
+
+  reverse = (sort == "descending")
+  sorted_orders = sorted(orders, key=lambda order: getattr(order, sortBy), reverse=reverse)
+
   start = (page - 1) * page_size
   end = start + page_size
   return {
-    "data": orders[start:end],
-    "total": len(orders),
+    "data": sorted_orders[start:end],
+    "total": len(sorted_orders),
   }

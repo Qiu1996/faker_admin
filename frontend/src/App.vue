@@ -11,6 +11,8 @@ const statusFilter = ref([]);
 const inputFilter = ref();
 const dateFilter = ref();
 const amountFilter = ref();
+const sortBy = ref('created_at');
+const sort = ref('descending');
 
 const API_URL = import.meta.env.DEV
   ? 'http://localhost:8000'
@@ -18,7 +20,7 @@ const API_URL = import.meta.env.DEV
 
 const fetchOrdersData = async () => {
   const res = await fetch(
-    `${API_URL}/order?page=${currentPage.value}`
+    `${API_URL}/order?page=${currentPage.value}&sortBy=${sortBy.value}&sort=${sort.value}`
   );
   const data = await res.json();
   orderList.value = data.data;
@@ -30,6 +32,12 @@ watch(currentPage, () => {
 });
 
 fetchOrdersData();
+
+const handleSort = async ({prop, order}) => {
+  sortBy.value = prop;
+  sort.value = order;
+  fetchOrdersData();
+}
 
 </script>
 
@@ -44,5 +52,6 @@ fetchOrdersData();
   v-model:current-page="currentPage"
   :total=orderTotal />
 <OrderTable
+  @sort-change="handleSort"
   :orders=orderList />
 </template>

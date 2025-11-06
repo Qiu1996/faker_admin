@@ -22,7 +22,7 @@ const API_URL = import.meta.env.DEV
 const fetchOrdersData = async () => {
   const params = new URLSearchParams();
   params.append('page', currentPage.value);
-  params.append('sortBy', sortBy.value);
+  params.append('sort_by', sortBy.value);
   params.append('sort', sort.value);
 
   if (statusFilter.value){
@@ -36,6 +36,9 @@ const fetchOrdersData = async () => {
   if (dateFilter.value){
     params.append('date_start', dateFilter.value[0].toISOString());
     params.append('date_end', dateFilter.value[1].toISOString());
+
+    console.log(dateFilter.value[0].toISOString());
+
   }
 
   if (amountFilter.value){

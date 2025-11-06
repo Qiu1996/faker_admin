@@ -8,10 +8,10 @@ import FilterBar from "./components/FilterBar.vue";
 const orderList = ref([]);
 const orderTotal = ref(0);
 const currentPage = ref(1);
-const statusFilter = ref([]);
-const searchFilter = ref('');
-const dateFilter = ref();
-const amountFilter = ref();
+const statusFilter = ref(null);
+const searchFilter = ref(null);
+const dateFilter = ref(null);
+const amountFilter = ref(null);
 const sortBy = ref('created_at');
 const sort = ref('descending');
 
@@ -20,21 +20,34 @@ const API_URL = import.meta.env.DEV
   : 'https://fakeradmin.zeabur.app'
 
 const fetchOrdersData = async () => {
-  const page = `page=${currentPage.value}`;
-  const sort_para = `sortBy=${sortBy.value}&sort=${sort.value}`;
-  const date_format = dateFilter.value ? `${dateFilter.value[0].toISOString()},${dateFilter.value[1].toISOString()}` : '';
-  const amount = amountFilter.value ? `${AMOUNT_RANGES[amountFilter.value]}` : '';
-  const filter_para = `status=${statusFilter.value}&search=${searchFilter.value}&date=${date_format}&amount=${amount}`;
+  const params = new URLSearchParams();
+  params.append('page', currentPage.value);
+  params.append('sortBy', sortBy.value);
+  params.append('sort', sort.value);
+
+  if (statusFilter.value){
+    params.append('status', statusFilter.value);
+  }
+
+  if (searchFilter.value){
+    params.append('search', searchFilter.value);
+  }
+
+  if (dateFilter.value){
+    params.append('date_start', dateFilter.value[0].toISOString());
+    params.append('date_end', dateFilter.value[1].toISOString());
+  }
+
+  if (amountFilter.value){
+    params.append('amount', AMOUNT_RANGES[amountFilter.value]);
+  }
 
   const res = await fetch(
-    `${API_URL}/order?${page}&${sort_para}&${filter_para}`
+    `${API_URL}/order?${params}`
   );
   const data = await res.json();
   orderList.value = data.data;
   orderTotal.value = data.total;
-
-  console.log(`${API_URL}/order?${page}&${sort_para}&${filter_para}`);
-
 };
 
 watch(

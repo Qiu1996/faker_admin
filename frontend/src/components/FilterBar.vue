@@ -1,7 +1,7 @@
 <script setup>
 import { ORDER_STATUS, AMOUNT_RANGES } from "../constants.js"
 const statusFilter = defineModel("statusFilter");
-const inputFilter = defineModel("inputFilter");
+const searchFilter = defineModel("searchFilter");
 const dateFilter = defineModel("dateFilter");
 const amountFilter = defineModel("amountFilter");
 </script>
@@ -32,7 +32,7 @@ const amountFilter = defineModel("amountFilter");
     </el-col>
     <el-col :span="6">
       <el-input
-        v-model="inputFilter"
+        v-model="searchFilter"
         placeholder="輸入訂單編號或客戶姓名" />
     </el-col>
     <el-col :span="6">
